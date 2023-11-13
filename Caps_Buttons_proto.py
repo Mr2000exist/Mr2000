@@ -9,8 +9,6 @@ resolution_h = 1080
 
 button_size = math.floor((resolution_w if resolution_w < resolution_h else resolution_h) / 10)
 
-print(button_size)
-
 
 class Body_Control(QWidget) : 
     text = 'NULL'
@@ -41,12 +39,17 @@ class Body_Control(QWidget) :
         button_turnright.setGeometry(200, 150, button_size, button_size)
         button_turnright.move(math.floor(resolution_w-button_size*1.5), resolution_h-button_size*3)
 
+        button_kill = QPushButton('X', self)
+        button_kill.clicked.connect(QApplication.instance().quit)
+        button_kill.setGeometry(200, 150, math.floor(button_size*0.5), math.floor(button_size*0.5))
+        button_kill.move(math.floor(resolution_w-button_size*1), math.floor(button_size*0.5))
+
         self.lbl = QLabel(self.text, self)
         self.lbl.move(math.floor(resolution_w/2), math.floor(resolution_h/2))
 
         self.setGeometry(200, 150, resolution_w, resolution_h)
         self.setWindowTitle('Prototype')
-        self.show()
+        self.showFullScreen()
 
     def moveForward(self) : 
         self.lbl.setText('forw')
