@@ -17,7 +17,7 @@ button_size = math.floor(
 
 class BodyControl(QWidget):
     text = "NULL"
-    motor_ctrl = MotorControl()
+    motor_ctrl = motor_control.MotorControl()
 
     def __init__(self):
         super().__init__()
@@ -59,20 +59,19 @@ class BodyControl(QWidget):
         self.showFullScreen()
 
     def moveForward(self):
-        self.lbl.setText("forw")
-        motor_ctrl.front()
+        self.motor_ctrl.front()
 
     def moveBackward(self):
-        self.lbl.setText("back")
-        motor_ctrl.back()
+        self.motor_ctrl.back()
 
     def turnLeft(self):
-        self.lbl.setText("left")
-        motor_ctrl.left()
+        self.motor_ctrl.left()
 
     def turnRight(self):
-        self.lbl.setText("right")
-        motor_ctrl.right()
+        self.motor_ctrl.right()
+
+    def stop(self):
+        self.motor_ctrl.stop()
 
 
 def main():
