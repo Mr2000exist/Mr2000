@@ -2,7 +2,8 @@
 
 import math
 import sys
-from PyQt6.QtWidgets import QWidget, QPushButton, QApplication, QLabel
+from PyQt6.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout
+from PyQt6.QtCore import Qt
 
 resolution_w = 1920
 resolution_h = 1080
@@ -20,33 +21,22 @@ class BodyControl(QWidget):
         self.initUI()
 
     def initUI(self):
-        button_forward = QPushButton("^\n|", self)
+        layout = QGridLayout()
+        button_forward = QPushButton("↑", self)
         button_forward.clicked.connect(self.moveForward)
-        button_forward.setGeometry(200, 150, button_size, button_size)
-        button_forward.move(
-            resolution_w - button_size * 3, math.floor(resolution_h - button_size * 4.5)
-        )
+        layout.addWidget(button_forward, 0, 1)
 
-        button_backword = QPushButton("!", self)
+        button_backword = QPushButton("↓", self)
         button_backword.clicked.connect(self.moveBackward)
-        button_backword.setGeometry(200, 150, button_size, button_size)
-        button_backword.move(
-            resolution_w - button_size * 3, math.floor(resolution_h - button_size * 1.5)
-        )
+        layout.addWidget(button_backword, 2, 1)
 
-        button_turnleft = QPushButton("<-", self)
+        button_turnleft = QPushButton("←", self)
         button_turnleft.clicked.connect(self.turnLeft)
-        button_turnleft.setGeometry(200, 150, button_size, button_size)
-        button_turnleft.move(
-            math.floor(resolution_w - button_size * 4.5), resolution_h - button_size * 3
-        )
+        layout.addWidget(button_turnleft, 1, 0)
 
-        button_turnright = QPushButton("->", self)
+        button_turnright = QPushButton("→", self)
         button_turnright.clicked.connect(self.turnRight)
-        button_turnright.setGeometry(200, 150, button_size, button_size)
-        button_turnright.move(
-            math.floor(resolution_w - button_size * 1.5), resolution_h - button_size * 3
-        )
+        layout.addWidget(button_turnright, 1, 2)
 
         button_kill = QPushButton("X", self)
         button_kill.clicked.connect(QApplication.instance().quit)
@@ -58,9 +48,10 @@ class BodyControl(QWidget):
         )
 
         self.lbl = QLabel(self.text, self)
-        self.lbl.move(math.floor(resolution_w / 2), math.floor(resolution_h / 2))
+        layout.addWidget(self.lbl, 1, 1)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.setGeometry(200, 150, resolution_w, resolution_h)
+        self.setLayout(layout)
         self.setWindowTitle("Prototype")
         self.showFullScreen()
 
