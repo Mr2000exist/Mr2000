@@ -4,6 +4,7 @@ import math
 import sys
 from PyQt6.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout
 from PyQt6.QtCore import Qt
+from robotics import motor_control
 
 resolution_w = 1920
 resolution_h = 1080
@@ -15,6 +16,7 @@ button_size = math.floor(
 
 class BodyControl(QWidget):
     text = "NULL"
+    motor_ctrl = MotorControl()
 
     def __init__(self):
         super().__init__()
@@ -57,15 +59,19 @@ class BodyControl(QWidget):
 
     def moveForward(self):
         self.lbl.setText("forw")
+        motor_ctrl.front()
 
     def moveBackward(self):
         self.lbl.setText("back")
+        motor_ctrl.back()
 
     def turnLeft(self):
         self.lbl.setText("left")
+        motor_ctrl.left()
 
     def turnRight(self):
         self.lbl.setText("right")
+        motor_ctrl.right()
 
 
 def main():
