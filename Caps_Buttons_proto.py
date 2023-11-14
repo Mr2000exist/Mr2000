@@ -50,8 +50,9 @@ class BodyControl(QWidget):
             math.floor(resolution_w - button_size * 1), math.floor(button_size * 0.5)
         )
 
-        self.lbl = QLabel(self.text, self)
-        layout.addWidget(self.lbl, 1, 1)
+        button_stop = QPushButton("-", self)
+        button_stop.clicked.connect(self.stop)
+        layout.addWidget(button_stop, 1, 1)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.setLayout(layout)
