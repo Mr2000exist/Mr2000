@@ -1,9 +1,10 @@
+#!/bin/python3
 # fist_made prototype
 
 import math
 import sys
-from PyQt6.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout
-from PyQt6.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout
+from PyQt5.QtCore import Qt
 
 resolution_w = 1920
 resolution_h = 1080
