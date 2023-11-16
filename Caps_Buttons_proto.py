@@ -3,9 +3,12 @@
 
 import math
 import sys
-#from robotics import motor_control
+from robotics import motor_control
 from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QSlider
 from PyQt5.QtCore import Qt
+
+MIN_SPEED_DIAL = 1
+MAX_SPEED_DIAL = 100
 
 resolution_w = 640 
 resolution_h = 480
@@ -16,7 +19,8 @@ button_size = math.floor(
 
 
 class BodyControl(QWidget):
-    #motor_ctrl = motor_control.MotorControl()
+    motor_ctrl = motor_control.MotorControl()
+    speed = 0
 
     def __init__(self):
         super().__init__()
@@ -31,7 +35,7 @@ class BodyControl(QWidget):
         pow_slider_layout = QVBoxLayout()
         
         power_slider = QSlider(Qt.Orientation.Horizontal, self)
-        power_slider.setRange(1, 100)
+        power_slider.setRange(MIN_SPEED_DIAL, MAX_SPEED_DIAL)
 
         #grid_button_layout
         button_forward = QPushButton("↑", self)
@@ -60,7 +64,7 @@ class BodyControl(QWidget):
         grid_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         #power_slide_layout
-        power_slider.sliderMoved.connect(self.slider_position)
+        power_slider.valueChanged.connect(self.slider_position)
         self.power_status_label = QLabel('1', self)
         pow_slider_layout.addWidget(power_slider)
         pow_slider_layout.addWidget(self.power_status_label)
@@ -76,22 +80,23 @@ class BodyControl(QWidget):
 
     #buttons_actions_funcs
     def moveForward(self):
-        self.motor_ctrl.front()
+        self.motor_ctrl.front(self.speed)
 
     def moveBackward(self):
-        self.motor_ctrl.back()
+        self.motor_ctrl.back(self.speed)
 
     def turnLeft(self):
-        self.motor_ctrl.left()
+        self.motor_ctrl.left(self.speed)
 
     def turnRight(self):
-        self.motor_ctrl.right()
+        self.motor_ctrl.right(self.speed)
 
     def stop(self):
         self.motor_ctrl.stop()
 
     def slider_position(self, p) : 
         self.power_status_label.setText(str(p))
+        self.speed = float(p / MAX_SPEED_DIAL)
 
 
 def main():
