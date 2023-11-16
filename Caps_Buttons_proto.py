@@ -3,9 +3,12 @@
 
 import math
 import sys
-#from robotics import motor_control
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout
+from robotics import motor_control
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QSlider
 from PyQt5.QtCore import Qt
+
+MIN_SPEED_DIAL = 1
+MAX_SPEED_DIAL = 100
 
 resolution_w = 640 
 resolution_h = 480
@@ -16,19 +19,25 @@ button_size = math.floor(
 
 
 class BodyControl(QWidget):
-    text = "NULL"
     motor_ctrl = motor_control.MotorControl()
+    speed = 0
 
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
+        #layout setting
         v_layout = QVBoxLayout()
         grid_layout = QGridLayout()
-        h_layout = QHBoxLayout()
-        h_layout.addStretch()
+        kill_layout = QHBoxLayout()
+        kill_layout.addStretch()
+        pow_slider_layout = QVBoxLayout()
+        
+        power_slider = QSlider(Qt.Orientation.Horizontal, self)
+        power_slider.setRange(MIN_SPEED_DIAL, MAX_SPEED_DIAL)
 
+        #grid_button_layout
         button_forward = QPushButton("↑", self)
         button_forward.clicked.connect(self.moveForward)
         grid_layout.addWidget(button_forward, 0, 1)
@@ -47,35 +56,47 @@ class BodyControl(QWidget):
 
         button_kill = QPushButton("X", self)
         button_kill.clicked.connect(QApplication.instance().quit)
-        h_layout.addWidget(button_kill)
+        kill_layout.addWidget(button_kill)
 
         button_stop = QPushButton("-", self)
         button_stop.clicked.connect(self.stop)
-        layout.addWidget(button_stop, 1, 1)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        grid_layout.addWidget(button_stop, 1, 1)
+        grid_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        h_layout.setContentsMargins(button_size*9, button_size, math.floor(button_size/2), 0)
-        v_layout.addLayout(h_layout)
+        #power_slide_layout
+        power_slider.valueChanged.connect(self.slider_position)
+        self.power_status_label = QLabel('1', self)
+        pow_slider_layout.addWidget(power_slider)
+        pow_slider_layout.addWidget(self.power_status_label)
+
+        kill_layout.setContentsMargins(button_size*9, button_size, math.floor(button_size/2), 0)
+        v_layout.addLayout(kill_layout)
+        v_layout.addLayout(pow_slider_layout)
         v_layout.addLayout(grid_layout)
         self.setLayout(v_layout)
         self.setGeometry(200, 150, resolution_w, resolution_h)
         self.setWindowTitle("Prototype")
         self.show()
 
+    #buttons_actions_funcs
     def moveForward(self):
-        self.motor_ctrl.front()
+        self.motor_ctrl.front(self.speed)
 
     def moveBackward(self):
-        self.motor_ctrl.back()
+        self.motor_ctrl.back(self.speed)
 
     def turnLeft(self):
-        self.motor_ctrl.left()
+        self.motor_ctrl.left(self.speed)
 
     def turnRight(self):
-        self.motor_ctrl.right()
+        self.motor_ctrl.right(self.speed)
 
     def stop(self):
         self.motor_ctrl.stop()
+
+    def slider_position(self, p) : 
+        self.power_status_label.setText(str(p))
+        self.speed = float(p / MAX_SPEED_DIAL)
 
 
 def main():
