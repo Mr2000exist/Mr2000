@@ -11,32 +11,32 @@ class MotorControl:
     motor3 = Motor(forward="GPIO15", backward="GPIO14")
     motor4 = Motor(forward="GPIO18", backward="GPIO23")
 
-    def front(self):
-        self.motor.forward()
-        self.motor2.forward()
-        self.motor3.forward()
-        self.motor4.forward()
+    def front(self, speed=0.3):
+        self.motor.forward(speed)
+        self.motor2.forward(speed)
+        self.motor3.forward(speed)
+        self.motor4.forward(speed)
 
     def stop(self):
         self.motor.stop()
         self.motor2.stop()
-        self.motor3.stop()
-        self.motor4.stop()
+        self.motor3.stop(),
+        self.motor4.stop(),
 
-    def back(self):
-        self.motor.backward()
-        self.motor2.backward()
-        self.motor3.backward()
-        self.motor4.backward()
+    def back(self, speed=0.3):
+        self.motor.backward(speed)
+        self.motor2.backward(speed)
+        self.motor3.backward(speed)
+        self.motor4.backward(speed)
 
-    def right(self):
-        self.motor.forward(0.2)
-        self.motor3.forward(0.2)
-        self.motor2.backward(0.2)
-        self.motor4.backward(0.2)
+    def right(self, speed=0.3):
+        self.motor.forward(speed)
+        self.motor3.forward(speed)
+        self.motor2.backward(speed)
+        self.motor4.backward(speed)
 
-    def left(self):
-        self.motor2.forward(0.2)
-        self.motor4.forward(0.2)
-        self.motor.backward(0.2)
-        self.motor3.backward(0.2)
+    def left(self, speed=0.3):
+        self.motor2.forward(speed)
+        self.motor4.forward(speed)
+        self.motor.backward(speed)
+        self.motor3.backward(speed)
