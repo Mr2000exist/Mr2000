@@ -4,7 +4,7 @@
 import math
 import sys
 #from robotics import motor_control
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QSlider, QMainWindow, QSizePolicy, QMessageBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QGridLayout, QHBoxLayout, QVBoxLayout, QSlider, QMainWindow, QSizePolicy, QMessageBox, QScrollArea
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap, QPainter
 
@@ -32,6 +32,7 @@ class BodyControl(QWidget):
         kill_layout = QHBoxLayout()
         kill_layout.addStretch()
         pow_slider_layout = QVBoxLayout()
+        self.img_scroll_layout = QScrollArea()
 
         pow_slider_layout.setContentsMargins(0,0,0,0)
         
@@ -52,13 +53,9 @@ class BodyControl(QWidget):
                 return
 
             self.imageLabel.setPixmap(QPixmap.fromImage(image))
-            self.scaleFactor = 1.0/(self.imageLabel.pixmap().size() * 0.003125)
 
-        self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
+        self.img_scroll_layout.setWidget(self.imageLabel)
 
-            #self.imageLabel.setVisible(True)
-            #self.imageLabel.show()
-        
         #grid_layout.cellRect(3,3)
         #grid_layout.rowStretch(button_size*3)
         #grid_layout.columnStretch(button_size*3)
